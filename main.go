@@ -1,8 +1,27 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+	"strings"
+)
 
 func main() {
-	_, errs := fmt.Println("Hello, World!", 45, "Felipe Paz")
-	fmt.Println(errs)
+	var folders []string
+
+	err := filepath.Walk("./", func(path string, info os.FileInfo, err error) error {
+
+		if !strings.HasPrefix(path, ".") && !strings.HasPrefix(path, "exercicio") && !strings.HasPrefix(path, "main.go") {
+			folders = append(folders, path)
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(folders)
 }
